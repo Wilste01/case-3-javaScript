@@ -10,16 +10,22 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
         name: linkName,
         url: linkUrl
     };
+    let nameExists = linksArray.some(link => link.name === linkName);
 
-
-    linksArray.push(linkObject)
-    inputLinkName.value = ''; // Rensa input-fältet
-    inputLinkUrl.value = '';
-
-
-
-    updateLinksList(); // Uppdatera listan
-
+    if (nameExists) {
+        let userConfirmed = confirm("Detta länknamnet finns redan. Vill du lägga till det ändå?");
+        if (userConfirmed) {
+            linksArray.push(linkObject);
+            document.getElementById('inputLinkName').value = ''; 
+            document.getElementById('inputLinkUrl').value = ''; 
+            updateLinksList(); 
+        }
+    } else {
+        linksArray.push(linkObject);
+        document.getElementById('inputLinkName').value = ''; // Rensa input-fältet
+        document.getElementById('inputLinkUrl').value = ''; 
+        updateLinksList(); // Uppdatera listan med ny funktion nedan
+    }
 
 })
 
