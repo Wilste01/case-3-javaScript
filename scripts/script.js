@@ -11,6 +11,7 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
         url: linkUrl
     };
 
+
     linksArray.push(linkObject)
     inputLinkName.value = ''; // Rensa input-fältet
     inputLinkUrl.value = '';
