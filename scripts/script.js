@@ -60,3 +60,15 @@ function updateLinksList() {
     
     
 }
+
+
+// Förhindra incesering av kod i input fälten
+
+function sanitizeInput(input) {
+    var element = document.createElement('div');
+    element.innerText = input;
+    return element.innerHTML;
+}
+
+var userInput = document.getElementById("inputLinkName", "inputLinkUrl").value;
+var sanitizedInput = sanitizeInput(userInput);
