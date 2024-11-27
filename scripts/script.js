@@ -1,7 +1,7 @@
 // const linksArray = [];
 const linksArray = JSON.parse(localStorage.getItem("linksArray")) || []; // Läs in tidigare länkar eller starta tom
-
-
+// let idCounter = 1;
+let idCounter = parseInt(localStorage.getItem("idCounter")) || 1;
 
 document.getElementById("linkForm").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -10,7 +10,8 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
     let linkUrl = inputLinkUrl.value;
     let linkObject = {
         name: linkName,
-        url: linkUrl
+        url: linkUrl,
+        id: `${linkName}-${idCounter}`,
     };
     let nameExists = linksArray.some(link => link.name === linkName);
 
@@ -20,6 +21,7 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
             linksArray.push(linkObject);
             document.getElementById('inputLinkName').value = '';
             document.getElementById('inputLinkUrl').value = '';
+            idCounter++;
             updateLinksList();
             saveLinksToLocalStorage();
         }
@@ -27,6 +29,7 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
         linksArray.push(linkObject);
         document.getElementById('inputLinkName').value = ''; // Rensa input-fältet
         document.getElementById('inputLinkUrl').value = '';
+        idCounter++;
         updateLinksList(); // Uppdatera listan med ny funktion nedan
         saveLinksToLocalStorage();
     }
@@ -60,34 +63,75 @@ function updateLinksList() {
         const li = document.createElement('li');
         li.className = "item";
         li.setAttribute("draggable", "true");
+        li.id = link.id;
 
         const div = document.createElement("div");
         div.className = "details";
+
 
         const a = document.createElement('a');
         a.href = link.url;
         a.textContent = link.name;
         a.target = '_blank';
 
-        const deleteButton = document.createElement("span")
-        deleteButton.className = "material-symbols-outlined";
-        deleteButton.textContent = "delete";
 
-        const icon = document.createElement('span');
-        icon.className = "material-symbols-outlined";
-        icon.textContent = "drag_indicator";
+
+        const buttonsContainer = document.createElement("div");
+        buttonsContainer.className = "liButtonsContainer";
+
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = "icon-button";
+        deleteButton.type = "button";
+        deleteButton.addEventListener('click', linkDelete);
+
+        const deleteIcon = document.createElement('span');
+        deleteIcon.className = "material-symbols-outlined";
+        deleteIcon.textContent = "delete";
+
+
+
+
+
+        const dragIcon = document.createElement('span');
+        dragIcon.className = "material-symbols-outlined";
+        dragIcon.textContent = "drag_indicator";
 
         div.appendChild(a);
         li.appendChild(div);
-        li.appendChild(icon);
+        buttonsContainer.appendChild(dragIcon);
+        deleteButton.appendChild(deleteIcon);
+        buttonsContainer.appendChild(deleteButton);
+        li.appendChild(buttonsContainer);
         ul.appendChild(li);
     });
 
 
 }
 
-// ---------- Remove function
+// Hitta närmaste <li>-element
+function getClosestLiId(element) {
+    const closestLi = element.closest('li');
 
+    if (closestLi) {
+        // console.log(closestLi.id);
+        return closestLi.id;
+    }
+}
+
+
+function linkDelete(event) {
+    const closestLiId = getClosestLiId(event.target);
+    if (closestLiId) {
+        // Ta bort länken från arrayen
+        const index = linksArray.findIndex(link => link.id === closestLiId);
+        if (index !== -1) {
+            linksArray.splice(index, 1);
+            updateLinksList();
+            saveLinksToLocalStorage();
+        }
+    }
+}
 
 
 
