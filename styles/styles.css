@@ -1,0 +1,90 @@
+:root {
+    --main-dark: #25272a;
+    --neu-dark: #090a0c;
+    --neu-light: #252a30;
+    --back-gradient: linear-gradient(180deg,
+            rgba(62, 67, 76, 1) 0%,
+            rgba(30, 32, 36, 1) 100%);
+    --header-button-wrapper-neu-shadows: 0.2vw 0.2vw 0.7vw #16191b,
+        -0.2vw -0.2vw 0.7vw #4c575f;
+
+    --header-normal-button-front-gradient: linear-gradient(135deg,
+            rgba(46, 52, 57, 1) 0%,
+            rgba(27, 30, 34, 1) 100%);
+
+
+    --main-cover-wrapper-gradient: linear-gradient(135deg,
+            rgba(31, 36, 40, 1) 0%,
+            rgba(22, 23, 25, 1) 100%);
+
+
+    --text-color: rgba(255, 255, 255, 0.5);
+}
+
+
+* {
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    letter-spacing: 1.1px;
+    color: var(--text-color);
+
+}
+
+body {
+    /* FLEX */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* SIZE */
+    width: 100%;
+    height: 100dvh;
+
+    /* BACKGROUND */
+    background: var(--back-gradient);
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+#linkForm {
+    margin: 5rem auto;
+    background-color: var(--main-cover-wrapper-gradient);
+    width: 80dvw;
+    height: auto;
+    padding: 1rem;
+
+    /* NEUMORPHISM */
+    box-shadow: 18px 18px 30px #16181D,
+        -9px -9px 30px #2A2C33;
+    border-radius: 50px;
+
+}
+input,
+input:focus,
+.submitButton {
+    background-color: var(--front-gradient);
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    margin-top: 1rem;
+    padding: 1rem;
+
+
+    background: var(--header-button-wrapper-gradient);
+    box-shadow: var(--header-button-wrapper-neu-shadows);
+    overflow: visible;
+}
+li {
+    margin-top: 1rem;
+    width: 20vw;
+    border-radius: 50px;
+    padding: 1rem;
+    background: var(--header-button-wrapper-gradient);
+    box-shadow: inset var(--header-button-wrapper-neu-shadows);
+
+}
