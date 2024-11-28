@@ -59,11 +59,13 @@ function updateLinksList() {
     linksArray.forEach(link => {
 
         const linkContainer = document.createElement("div");
-        linkContainer.className = "linkContainer";
+        linkContainer.className = "linkContainer item";
+        linkContainer.setAttribute("draggable", "true");
+        // linkContainer.id = link.id;
 
         const linkElement = document.createElement("li");
-        linkElement.className = "item";
-        linkElement.setAttribute("draggable", "true");
+         linkElement.className = "item";
+        //  linkElement.setAttribute("draggable", "true");
         linkElement.id = link.id;
 
         const div = document.createElement("div");
