@@ -57,13 +57,14 @@ function updateLinksList() {
     ul.innerHTML = ""; // Rensa befintlig lista
 
     linksArray.forEach(link => {
-        // cardDiv = document.createElement("div");
-        // cardDiv.id = "cardDiv";
 
-        const li = document.createElement("li");
-        li.className = "item";
-        li.setAttribute("draggable", "true");
-        li.id = link.id;
+        const linkContainer = document.createElement("div");
+        linkContainer.className = "linkContainer";
+
+        const linkElement = document.createElement("li");
+        linkElement.className = "item";
+        linkElement.setAttribute("draggable", "true");
+        linkElement.id = link.id;
 
         const div = document.createElement("div");
         div.className = "details";
@@ -102,14 +103,29 @@ function updateLinksList() {
         editIcon.className = "material-symbols-outlined";
         editIcon.textContent = "edit";
 
+
+        const favoriteButton = document.createElement("button");
+        favoriteButton.className = "favoriteButton";
+        favoriteButton.type = "button";
+        favoriteButton.addEventListener("click", favoriteLink)
+
+        const favoriteIcon = document.createElement("span");
+        favoriteIcon.className = "material-symbols-outlined";
+        favoriteIcon.textContent = "favorite";
+
+
+        // Rörig mess av vissualisera vad som ska vara i vad....
         div.appendChild(a);
-        li.appendChild(div);
+        linkElement.appendChild(div);
         editButton.appendChild(editIcon);
         buttonsContainer.appendChild(editButton);
         deleteButton.appendChild(deleteIcon);
         buttonsContainer.appendChild(deleteButton);
-        li.appendChild(buttonsContainer);
-        ul.appendChild(li);
+        linkElement.appendChild(buttonsContainer);
+        favoriteButton.appendChild(favoriteIcon);
+        linkContainer.appendChild(favoriteButton);
+        linkContainer.appendChild(linkElement);
+        ul.appendChild(linkContainer);
     });
 
 
@@ -150,6 +166,8 @@ function getClosestAContent(element) {
 
 
 function editLink(event) {
+    // Hittar först närsmta li där allt ligger i
+    // sen vidare till rätt anchor och ändra textContent med promt
     const closestLi = event.target.closest("li");
 
     if (closestLi) {
@@ -164,6 +182,13 @@ function editLink(event) {
             }
         }
     }
+}
+
+
+function favoriteLink(event) {
+    const icon = event.target;
+    icon.classList.toggle("material-symbols-outlined-fill");
+    
 }
 
 

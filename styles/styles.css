@@ -131,7 +131,14 @@ button {
     /* transform: scale(1.2); */
 }
 
-.icon-button {
+
+.linkContainer {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row-reverse;
+}
+
+.linkButtons, .favoriteButton {
     width: auto;
     border: none;
 }
@@ -144,3 +151,11 @@ button {
     transform: scale(1.2);
     transition: ease-in-out 0.1s;
 }
+
+.material-symbols-outlined-fill {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+  }
