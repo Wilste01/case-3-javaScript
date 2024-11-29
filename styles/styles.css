@@ -1,24 +1,11 @@
 :root {
-    --main-dark: #25272a;
-    --neu-dark: #090a0c;
-    --neu-light: #252a30;
-    --back-gradient: linear-gradient(180deg,
-            rgba(62, 67, 76, 1) 0%,
-            rgba(30, 32, 36, 1) 100%);
-    --header-button-wrapper-neu-shadows: 0.2vw 0.2vw 0.7vw #16191b,
-        -0.2vw -0.2vw 0.7vw #4c575f;
-
-    --header-normal-button-front-gradient: linear-gradient(135deg,
-            rgba(46, 52, 57, 1) 0%,
-            rgba(27, 30, 34, 1) 100%);
-
-
-    --main-cover-wrapper-gradient: linear-gradient(135deg,
-            rgba(31, 36, 40, 1) 0%,
-            rgba(22, 23, 25, 1) 100%);
-
-
-    --text-color: rgba(255, 255, 255, 0.5);
+    --mainBackground: #ECF0F3;
+    --text-color: rgba(53, 51, 51, 0.2);
+    --neuShadowsOriginalOutset: 18px 18px 30px #D1D9E6,
+        -9px -9px 30px #FFFFFF;
+    --neuShadowsOriginalInset: inset 18px 18px 30px #D1D9E6,
+        inset -9px -9px 30px #FFFFFF;
+    --neonColor:   rgba(240, 0, 255, 0.25) ;
 }
 
 
@@ -42,7 +29,7 @@ body {
     height: 100dvh;
 
     /* BACKGROUND */
-    background: var(--back-gradient);
+    background: var(--mainBackground);
 }
 
 .flex {
@@ -51,48 +38,59 @@ body {
     /* justify-content: center; */
     align-items: center;
 }
+
 #linkForm {
     margin: 5rem auto;
-    background-color: var(--main-cover-wrapper-gradient);
+    background-color: var(--mainBackground);
     width: 80dvw;
     height: auto;
     padding: 1rem;
 
     /* NEUMORPHISM */
-    box-shadow: 18px 18px 30px #16181D,
-        -9px -9px 30px #2A2C33;
+    box-shadow: var(--neuShadowsOriginal);
     border-radius: 50px;
 
 }
+
 input,
 input:focus,
 .submitButton {
-    background-color: var(--front-gradient);
+    background-color: var(--mainBackground);
     border: none;
     outline: none;
     border-radius: 50px;
     margin-top: 1rem;
     padding: 1rem;
-
-
-    background: var(--header-button-wrapper-gradient);
-    box-shadow: var(--header-button-wrapper-neu-shadows);
     overflow: visible;
 }
+input {
+    background: var(--mainBackground);
+    box-shadow: var(--neuShadowsOriginalInset);
+    
+}
+.submitButton {
+    box-shadow: var(--neuShadowsOriginalOutset);
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+}
+    
+
+
 li {
     margin-top: 1rem;
     width: 20vw;
     border-radius: 50px;
     padding: 1rem;
-    background: var(--header-button-wrapper-gradient);
-    box-shadow: inset var(--header-button-wrapper-neu-shadows);
+    background: var(--mainBackground);
+    box-shadow: var(--neuShadowsOriginalOutset);
 
 }
 
 button {
     cursor: pointer;
     width: 20vw;
-    background-color: var(--header-normal-button-front-gradient);
+    background-color: var(--mainBackground);
 }
 
 
@@ -117,6 +115,7 @@ button {
     margin-bottom: 11px;
     justify-content: space-between;
 }
+
 .item .details {
     display: flex;
     align-items: center;
@@ -138,24 +137,34 @@ button {
     flex-direction: row-reverse;
 }
 
-.linkButtons, .favoriteButton {
+.linkButtons,
+.favoriteButton {
     width: auto;
     border: none;
+    background: none;
 }
+
 .material-symbols-outlined {
+    color: var(--text-color);  
     opacity: 0.3;
     transition: ease-in-out 0.3s;
 }
+
 .material-symbols-outlined:hover {
     opacity: 1;
     transform: scale(1.2);
     transition: ease-in-out 0.1s;
+    color: var(--neonColor);
 }
 
 .material-symbols-outlined-fill {
     font-variation-settings:
-    'FILL' 1,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
-  }
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    opacity: 1;
+}
+
+
+/* -------- slide favourite */
