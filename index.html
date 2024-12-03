@@ -6,21 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,drag_indicator" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,edit,favorite,send" />
     <!-- <script src="https://kit.fontawesome.com/c1d24fb125.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="styles/styles.css">
     <title>Länksamling</title>
+
 </head>
 
 <body>
     <form id="linkForm" class="flex">
         <label for="inputLinkName"></label>
-        <input type="text" id="inputLinkName" >
+        <input type="text" id="inputLinkName" placeholder="Namn...">
 
         <label for="inputLinkUrl"></label>
-        <input type="text" id="inputLinkUrl" >
+        <input type="text" id="inputLinkUrl" placeholder="Url...">
 
-        <button type="submit" class="submitButton"></button>
+        <button type="submit" class="submitButton"><span class="material-symbols-outlined saveIcon">
+            send
+            </span></button>
+        <div class="divider"></div>
 
    
     </form>

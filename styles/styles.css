@@ -1,9 +1,9 @@
 :root {
     --mainBackground: #ECF0F3;
     --text-color: rgba(53, 51, 51, 0.2);
-    --neuShadowsOriginalOutset: 18px 18px 30px #D1D9E6,
+    --neuShadowsOriginalOutset: 9px 9px 18px #D1D9E6,
         -9px -9px 30px #FFFFFF;
-    --neuShadowsOriginalInset: inset 18px 18px 30px #D1D9E6,
+    --neuShadowsOriginalInset: inset 9px 9px 18px #D1D9E6,
         inset -9px -9px 30px #FFFFFF;
     --neonColor:   rgba(240, 0, 255, 0.25) ;
 }
@@ -26,7 +26,7 @@ body {
 
     /* SIZE */
     width: 100%;
-    height: 100dvh;
+    height: auto;
 
     /* BACKGROUND */
     background: var(--mainBackground);
@@ -63,6 +63,9 @@ input:focus,
     padding: 1rem;
     overflow: visible;
 }
+::placeholder {
+    color: var(--text-color);
+}
 input {
     background: var(--mainBackground);
     box-shadow: var(--neuShadowsOriginalInset);
@@ -73,11 +76,28 @@ input {
     width: 5vw;
     height: 5vw;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-    
+.submitButton:active {
+    box-shadow: var(--neuShadowsOriginalInset);
+}
+.submitButton:active .saveIcon {
+    color: var(--neonColor);
+}
 
+.divider {
+    border-radius: 50px;
+    margin-top: 3rem;
+    width: 90vw;
+    height: 5px;
+    box-shadow: var(--neuShadowsOriginalInset);
+}
 
 li {
+    display: flex;
+    justify-content: center;
     margin-top: 1rem;
     width: 20vw;
     border-radius: 50px;
@@ -114,19 +134,48 @@ button {
     padding: 10px 13px;
     margin-bottom: 11px;
     justify-content: space-between;
+    outline: none;
+    border: none;
 }
 
+
 .item .details {
+    outline: none;
+    border: none;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-left: 1rem;
+    box-shadow: none;
+
 }
 
 .item.dragging {
     opacity: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    /* box-shadow: 0 0 15px 15px var(--mainBackground); */
+}
+.item.dragging:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
 }
 
 .item.dragging :where(.details, i) {
     opacity: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    /* transform: scale(1.2); */
+}
+.item.dragging :where(.details, i):focus {
+    opacity: 0;
+    outline: none;
+    box-shadow: none;
+    border: none;
     /* transform: scale(1.2); */
 }
 
@@ -150,7 +199,7 @@ button {
     transition: ease-in-out 0.3s;
 }
 
-.material-symbols-outlined:hover {
+.material-symbols-outlined:hover:not(.spanExclude) {
     opacity: 1;
     transform: scale(1.2);
     transition: ease-in-out 0.1s;
@@ -165,6 +214,108 @@ button {
         'opsz' 24;
     opacity: 1;
 }
+.saveIcon{
+    font-size: 2rem;
+}
+
+
+
 
 
 /* -------- slide favourite */
+
+.FavouriteButtonContainer {
+    display: flex;
+    align-items: center;
+    background-color: #ECF0F3;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    width: 117px;
+    height: 1rem;
+    box-shadow: inset 18px 18px 30px #D1D9E6, inset -9px -9px 30px #FFFFFF;
+    /* overflow: hidden; */
+    position: relative;
+}
+
+
+
+.buttonCenter {
+    background-color: #ECF0F3;
+    margin: 0;
+    padding: 0;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    box-shadow: 18px 18px 30px #D1D9E6,
+     -9px -9px 30px #FFFFFF;;
+    margin-left: 0px;
+
+}
+
+@keyframes slideForward {
+    0% {
+        margin-left: 0px;
+        box-shadow: 1px 1px 10px rgba(240, 0, 255, 0),
+        -1px -1px 10px rgba(240, 0, 255, 0);
+    }
+    100% {
+        margin-left: 69px;
+        box-shadow: 1px 1px 10px rgba(240, 0, 255, 0.25),
+        -1px -1px 10px rgba(240, 0, 255, 0.25);
+    }
+}
+
+@keyframes slideBack {
+    0% {
+        margin-left: 70px;
+    }
+    100% {
+        margin-right: 0px;
+    }
+}
+/* @keyframes slideForwardLight {
+    0% {
+        box-shadow: inset 18px 18px 30px #D1D9E6,
+        inset -9px -9px 30px #FFFFFF;;
+    }
+    100% {
+
+        box-shadow: inset 30px 30px 50px rgba(240, 0, 255, 0.25),
+        inset -9px -9px 30px rgba(240, 0, 255, 0.25);
+    }
+}
+
+@keyframes slideBackLight {
+    0% {
+        box-shadow: inset 30px 30px 50px rgba(240, 0, 255, 0.25),
+        inset -9px -9px 30px rgba(240, 0, 255, 0.25);
+
+    }
+    100% {
+        box-shadow: inset 18px 18px 30px #D1D9E6,
+        inset -9px -9px 30px #FFFFFF;
+    }
+} */
+
+
+.buttonCenter.animate-forward {
+    animation: slideForward 1s forwards;
+}
+.buttonCenter.animate-forward .spanExclude{
+    color: var(--neonColor);
+}
+
+.buttonCenter.animate-backward {
+    animation: slideBack 1s forwards;
+}
+
+.FavouriteButtonContainer.animate-forward {
+    animation: slideForwardLight 1s forwards;
+}
+.FavouriteButtonContainer.animate-backward {
+    animation: slideBackLight 1s forwards;
+}
+

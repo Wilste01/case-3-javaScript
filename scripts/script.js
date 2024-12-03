@@ -58,13 +58,16 @@ function updateLinksList() {
 
     linksArray.forEach(link => {
 
+        const divider = document.createElement("div");
+        divider.className = "divider"
+
         const linkContainer = document.createElement("div");
         linkContainer.className = "linkContainer item";
         linkContainer.setAttribute("draggable", "true");
         // linkContainer.id = link.id;
 
         const linkElement = document.createElement("li");
-         linkElement.className = "item";
+        linkElement.className = "item";
         //  linkElement.setAttribute("draggable", "true");
         linkElement.id = link.id;
 
@@ -106,14 +109,26 @@ function updateLinksList() {
         editIcon.textContent = "edit";
 
 
-        const favoriteButton = document.createElement("button");
-        favoriteButton.className = "favoriteButton";
-        favoriteButton.type = "button";
-        favoriteButton.addEventListener("click", favoriteLink)
+        // const favoriteButton = document.createElement("button");
+        // favoriteButton.className = "favoriteButton";
+        // favoriteButton.type = "button";
+        // favoriteButton.addEventListener("click", favoriteLink);
 
         const favoriteIcon = document.createElement("span");
-        favoriteIcon.className = "material-symbols-outlined";
+        favoriteIcon.className = "material-symbols-outlined spanExclude";
         favoriteIcon.textContent = "favorite";
+
+        const favSlideContainer = document.createElement("div");
+        favSlideContainer.id = `${link.id}FavouriteButtonContainer`;
+        favSlideContainer.className = "FavouriteButtonContainer";
+
+        const favbut = document.createElement("button");
+        favbut.className = "buttonCenter";
+        favbut.type = "button";
+        favbut.id = `${link.id}FavouriteButton`;
+        favbut.onclick = toggleAnimation;
+
+
 
 
         // Rörig mess av vissualisera vad som ska vara i vad....
@@ -124,8 +139,11 @@ function updateLinksList() {
         deleteButton.appendChild(deleteIcon);
         buttonsContainer.appendChild(deleteButton);
         linkElement.appendChild(buttonsContainer);
-        favoriteButton.appendChild(favoriteIcon);
-        linkContainer.appendChild(favoriteButton);
+        // favoriteButton.appendChild(favoriteIcon);
+        // linkContainer.appendChild(favoriteButton);
+        favbut.appendChild(favoriteIcon)
+        favSlideContainer.appendChild(favbut);
+        linkContainer.appendChild(favSlideContainer);
         linkContainer.appendChild(linkElement);
         ul.appendChild(linkContainer);
     });
@@ -190,7 +208,7 @@ function editLink(event) {
 function favoriteLink(event) {
     const icon = event.target;
     icon.classList.toggle("material-symbols-outlined-fill");
-    
+
 }
 
 
@@ -198,66 +216,111 @@ function favoriteLink(event) {
 
 
 
-    // Förhindra incesering av kod i input fälten
+// Förhindra incesering av kod i input fälten
 
-    function saveLinksToLocalStorage() {
-        localStorage.setItem("linksArray", JSON.stringify(linksArray)); // Spara länkar i localStorage
+function saveLinksToLocalStorage() {
+    localStorage.setItem("linksArray", JSON.stringify(linksArray)); // Spara länkar i localStorage
+}
+
+function sanitizeInput(input) {
+    var element = document.createElement("div");
+    element.innerText = input;
+    return element.innerHTML;
+}
+
+// Ladda listan vid sidstart
+document.addEventListener("DOMContentLoaded", () => {
+    if (linksArray.length > 0) {
+        updateLinksList(); // Uppdatera listan om data finns i localStorage
     }
+});
 
-    function sanitizeInput(input) {
-        var element = document.createElement("div");
-        element.innerText = input;
-        return element.innerHTML;
+
+
+//-------------------------- Drag & Drop
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const sortableList = document.querySelector(".sortable-list");
+
+    if (sortableList) {
+        sortableList.addEventListener("dragstart", (e) => {
+            if (e.target.classList.contains("item")) {
+                isDragging = true;
+                setTimeout(() => e.target.classList.add("dragging"), 0);
+            }
+        });
+
+        sortableList.addEventListener("dragend", (e) => {
+            if (e.target.classList.contains("item")) {
+                isDragging = false;
+                e.target.classList.remove("dragging");
+            }
+        });
+
+        const initSortableList = (e) => {
+            e.preventDefault();
+            const draggingItem = document.querySelector(".dragging");
+            let siblings = [...sortableList.querySelectorAll(".item:not(.dragging)")];
+            let nextSibling = siblings.find(sibling => {
+                const rect = sibling.getBoundingClientRect();
+                return e.clientY <= rect.top + rect.height / 2;
+            });
+            sortableList.insertBefore(draggingItem, nextSibling);
+        };
+
+        sortableList.addEventListener("dragover", initSortableList);
+        sortableList.addEventListener("dragenter", (e) => e.preventDefault());
     }
+});
 
-    // Ladda listan vid sidstart
-    document.addEventListener("DOMContentLoaded", () => {
-        if (linksArray.length > 0) {
-            updateLinksList(); // Uppdatera listan om data finns i localStorage
-        }
+
+
+// Sibling
+
+const initSortableList = (e) => {
+    e.preventDefault();
+
+    const draggingItem = document.querySelector(".dragging");
+    let siblings = [...sortableList.querySelectorAll(".item:not(.dragging)")];
+
+    // Hitta nästa syskon baserat på musposition
+    let nextSibling = siblings.find(sibling => {
+        const rect = sibling.getBoundingClientRect();
+        return e.clientY <= rect.top + rect.height / 2;
     });
 
+    // Om nästa syskon inte finns, sätt nextSibling till null
+    if (!nextSibling) {
+        sortableList.appendChild(draggingItem); // Lägg till i slutet om inget syskon hittas
+    } else {
+        sortableList.insertBefore(draggingItem, nextSibling);
+    }
+};
 
 
-    //-------------------------- Drag & Drop
-
-    document.addEventListener("DOMContentLoaded", () => {
-        if (linksArray.length > 0) {
-            updateLinksList(); // Uppdatera listan om data finns i localStorage
-        }
-
-        const sortableList = document.querySelector(".sortable-list");
-
-        if (sortableList) {
-            sortableList.addEventListener("dragstart", (e) => {
-                if (e.target.classList.contains("item")) {
-                    setTimeout(() => e.target.classList.add("dragging"), 0);
-                }
-            });
-
-            sortableList.addEventListener("dragend", (e) => {
-                if (e.target.classList.contains("item")) {
-                    e.target.classList.remove("dragging");
-                }
-            });
-
-            const initSortableList = (e) => {
-                e.preventDefault();
-                const draggingItem = document.querySelector(".dragging");
-                let siblings = [...sortableList.querySelectorAll(".item:not(.dragging)")];
-                let nextSibling = siblings.find(sibling => {
-                    const rect = sibling.getBoundingClientRect();
-                    return e.clientY <= rect.top + rect.height / 2;
-                });
-                sortableList.insertBefore(draggingItem, nextSibling);
-            };
-
-            sortableList.addEventListener("dragover", initSortableList);
-            sortableList.addEventListener("dragenter", e => e.preventDefault());
-        }
-    });
+// ---------- Favourite toggle animation
 
 
+function toggleAnimation(event) {
+    const button = event.target;
+    const buttonCenter = button.closest('.buttonCenter');
+    const buttonContainer = button.closest('.button');
 
+    if (buttonCenter.classList.contains('animate-forward')) {
+        buttonCenter.classList.remove('animate-forward');
+        buttonCenter.classList.add('animate-backward');
+    } else {
+        buttonCenter.classList.remove('animate-backward');
+        buttonCenter.classList.add('animate-forward');
+    }
 
-
+    if (buttonContainer.classList.contains('animate-forward')) {
+        buttonContainer.classList.remove('animate-forward');
+        buttonContainer.classList.add('animate-backward');
+    } else {
+        buttonContainer.classList.remove('animate-backward');
+        buttonContainer.classList.add('animate-forward');
+    }
+}
