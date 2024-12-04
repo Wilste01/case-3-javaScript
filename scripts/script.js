@@ -39,27 +39,39 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
 
 function updateLinksList() {
     let ul = document.getElementById("linksList");
-    let wrapper = document.getElementById("ulWrapper")
+    let wrapper = document.getElementById("wrapper");
 
     if (!wrapper) {
         wrapper = document.createElement("div");
-        wrapper.id = "ulWrapper";
+        wrapper.className = "wrapper";
+        wrapper.id = "wrapper";
         linkForm.appendChild(wrapper);
     }
 
     if (!ul) {
         ul = document.createElement("ul");
         ul.id = "linksList";
-        ul.className = "sortable-list"
+        ul.className = "sortable-list";
         wrapper.appendChild(ul);
+
+        const linkWrapper = document.createElement("div");
+        linkWrapper.className = "linkWrapper";
+
+        // const dialWrapper = document.createElement("div");
+        // dialWrapper.className = "dialWrapper";
+
+        // const dialKnob = document.createElement("div");
+        // dialKnob.className = "dialKnob";
+        // dialKnob.id = "dialKnob";
+        // linkWrapper.appendChild(dialWrapper);
+        // dialWrapper.appendChild(dialKnob);
+        // wrapper.appendChild(dialWrapper)
     }
 
     ul.innerHTML = ""; // Rensa befintlig lista
 
     linksArray.forEach(link => {
 
-        const divider = document.createElement("div");
-        divider.className = "divider"
 
         const linkContainer = document.createElement("div");
         linkContainer.className = "linkContainer item";
@@ -141,7 +153,7 @@ function updateLinksList() {
         linkElement.appendChild(buttonsContainer);
         // favoriteButton.appendChild(favoriteIcon);
         // linkContainer.appendChild(favoriteButton);
-        favbut.appendChild(favoriteIcon)
+        favbut.appendChild(favoriteIcon);
         favSlideContainer.appendChild(favbut);
         linkContainer.appendChild(favSlideContainer);
         linkContainer.appendChild(linkElement);
@@ -323,4 +335,105 @@ function toggleAnimation(event) {
         buttonContainer.classList.remove('animate-backward');
         buttonContainer.classList.add('animate-forward');
     }
+
 }
+// Dial knob
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const wrapper = document.getElementById("dialWrapper");
+    const knob = document.getElementById("dialKnob");
+    const snapAngles = [0, 90, 180, 270]; // Positioner i vinklarna där olika kategorierna finns.
+    let currentRotation = 0; // start värde vid sidinladdning
+    let isDragging = false;
+    let lastAngle = null;
+
+    // beräknar vinkeln i grader mellan en punkt (x, y)
+    function getAngle(x, y) {
+        const rect = wrapper.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        return Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+    }
+
+    function calculateShortestRotation(lastAngle, newAngle) {
+        let delta = newAngle - lastAngle;
+        if (delta > 180) delta -= 360; // medsols positivt
+        if (delta < -180) delta += 360; // motsols negativt
+        return delta;
+    }
+
+    function findClosestSnapAngle(angle) {
+        return snapAngles.reduce(function (prev, curr) {
+            return Math.abs(curr - angle) < Math.abs(prev - angle) ? curr : prev;
+        });
+    }
+
+    function applyRotation(angle) {
+        console.log(`Applying rotation: ${angle}`);
+        knob.style.transform = `rotate(${angle}deg)`;
+        const closestSnapAngle = findClosestSnapAngle(angle);
+        showContent(closestSnapAngle);
+    }
+
+    function showContent(angle) {
+        console.log(`Showing content for angle: ${angle}`);
+        snapAngles.forEach(snapAngle => {
+            const contentDiv = document.getElementById(`content${snapAngle}`);
+            if (contentDiv) {
+                if (snapAngle === angle) {
+                    contentDiv.classList.remove('hidden');
+                } else {
+                    contentDiv.classList.add('hidden');
+                }
+            }
+        });
+    }
+
+    function updateRotation(e) {
+        if (!isDragging) return;
+        const newAngle = getAngle(e.clientX, e.clientY);
+        const delta = calculateShortestRotation(lastAngle, newAngle);
+        currentRotation += delta;
+        currentRotation = ((currentRotation % 360) + 360) % 360; // Normalisera till 0-359
+        applyRotation(currentRotation);
+        lastAngle = newAngle; // Uppdaterar vinkel
+    }
+
+    wrapper.addEventListener('mousedown', function (e) {
+        isDragging = true;
+        lastAngle = getAngle(e.clientX, e.clientY);
+        wrapper.style.cursor = 'grabbing';
+        document.body.classList.add('no-select');
+    });
+
+    document.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+        updateRotation(e);
+    });
+
+    document.addEventListener('mouseup', function () {
+        if (!isDragging) return;
+        isDragging = false;
+        wrapper.style.cursor = 'grab';
+        document.body.classList.remove('no-select');
+
+        // Hitta närmaste vinkel positionen
+        const normalizedRotation = ((currentRotation % 360) + 360) % 360; // Normalisera till 0-359
+        const closestSnapAngle = findClosestSnapAngle(normalizedRotation);
+
+        // gå till närmsta vinkel positionen
+        const delta = calculateShortestRotation(normalizedRotation, closestSnapAngle);
+        currentRotation = closestSnapAngle; // Uppdatera currentRotation till närmaste snapAngle
+        applyRotation(currentRotation);
+    });
+
+    const snapButtons = document.querySelectorAll('.dialButton');
+    snapButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const angle = parseInt(button.getAttribute('data-angle'));
+            applyRotation(angle);
+            currentRotation = angle; // Uppdatera currentRotation
+        });
+    });
+});
