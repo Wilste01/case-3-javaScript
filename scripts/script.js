@@ -1,262 +1,239 @@
-// const linksArray = [];
-const linksArray = JSON.parse(localStorage.getItem("linksArray")) || []; // Läs in tidigare länkar eller starta tom
-// let idCounter = 1;
+
+const defaultLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {
+    music: [],
+    movies: [],
+    news: [],
+    socialMedia: [],
+};
+const storedLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {};
+const linksArray = Object.assign(defaultLinksArray, storedLinksArray);
+
+
+
 let idCounter = parseInt(localStorage.getItem("idCounter")) || 1;
 
 document.getElementById("linkForm").addEventListener("submit", function (event) {
     event.preventDefault();
 
+    const inputLinkName = document.getElementById("inputLinkName");
+    const inputLinkUrl = document.getElementById("inputLinkUrl");
+    const inputLinkCategory = document.getElementById("inputLinkCategory");
+
+
     let linkName = inputLinkName.value;
     let linkUrl = inputLinkUrl.value;
+    let linkCategory = inputLinkCategory.value;
+
+
     let linkObject = {
         name: linkName,
         url: linkUrl,
+        category: linkCategory,
         id: `${linkName}-${idCounter}`,
+        favorite: false,
     };
-    let nameExists = linksArray.some(link => link.name === linkName);
+    // kategori matchar name och linkName
+    let nameExists = (linksArray[linkCategory] || []).some(link => link.name === linkName);
 
     if (nameExists) {
         let userConfirmed = confirm("Detta länknamnet finns redan. Vill du lägga till det ändå?");
         if (userConfirmed) {
-            linksArray.push(linkObject);
-            document.getElementById("inputLinkName").value = "";
-            document.getElementById("inputLinkUrl").value = "";
-            idCounter++;
-            updateLinksList();
-            saveLinksToLocalStorage();
-        }
-    } else {
-        linksArray.push(linkObject);
-        document.getElementById("inputLinkName").value = ""; // Rensa input-fältet
-        document.getElementById("inputLinkUrl").value = "";
-        idCounter++;
-        updateLinksList(); // Uppdatera listan med ny funktion nedan
-        saveLinksToLocalStorage();
-    }
-
-})
-
-
-function updateLinksList() {
-    let ul = document.getElementById("linksList");
-    let wrapper = document.getElementById("wrapper");
-
-    if (!wrapper) {
-        wrapper = document.createElement("div");
-        wrapper.className = "wrapper";
-        wrapper.id = "wrapper";
-        linkForm.appendChild(wrapper);
-    }
-
-    if (!ul) {
-        ul = document.createElement("ul");
-        ul.id = "linksList";
-        ul.className = "sortable-list";
-        wrapper.appendChild(ul);
-
-        const linkWrapper = document.createElement("div");
-        linkWrapper.className = "linkWrapper";
-
-        // const dialWrapper = document.createElement("div");
-        // dialWrapper.className = "dialWrapper";
-
-        // const dialKnob = document.createElement("div");
-        // dialKnob.className = "dialKnob";
-        // dialKnob.id = "dialKnob";
-        // linkWrapper.appendChild(dialWrapper);
-        // dialWrapper.appendChild(dialKnob);
-        // wrapper.appendChild(dialWrapper)
-    }
-
-    ul.innerHTML = ""; // Rensa befintlig lista
-
-    linksArray.forEach(link => {
-
-
-        const linkContainer = document.createElement("div");
-        linkContainer.className = "linkContainer item";
-        linkContainer.setAttribute("draggable", "true");
-        // linkContainer.id = link.id;
-
-        const linkElement = document.createElement("li");
-        linkElement.className = "item";
-        //  linkElement.setAttribute("draggable", "true");
-        linkElement.id = link.id;
-
-        const div = document.createElement("div");
-        div.className = "details";
-
-
-        const a = document.createElement("a");
-        a.href = link.url;
-        a.textContent = link.name;
-        a.target = "_blank";
-
-
-
-        const buttonsContainer = document.createElement("div");
-        buttonsContainer.className = "liButtonsContainer";
-
-
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "linkButtons";
-        deleteButton.type = "button";
-        deleteButton.addEventListener('click', linkDelete);
-
-        const deleteIcon = document.createElement("span");
-        deleteIcon.className = "material-symbols-outlined";
-        deleteIcon.textContent = "delete";
-
-
-
-
-
-        const editButton = document.createElement("button");
-        editButton.className = "linkButtons";
-        editButton.type = "button";
-        editButton.addEventListener('click', editLink);
-
-        const editIcon = document.createElement("span");
-        editIcon.className = "material-symbols-outlined";
-        editIcon.textContent = "edit";
-
-
-        // const favoriteButton = document.createElement("button");
-        // favoriteButton.className = "favoriteButton";
-        // favoriteButton.type = "button";
-        // favoriteButton.addEventListener("click", favoriteLink);
-
-        const favoriteIcon = document.createElement("span");
-        favoriteIcon.className = "material-symbols-outlined spanExclude";
-        favoriteIcon.textContent = "favorite";
-
-        const favSlideContainer = document.createElement("div");
-        favSlideContainer.id = `${link.id}FavouriteButtonContainer`;
-        favSlideContainer.className = "FavouriteButtonContainer";
-
-        const favbut = document.createElement("button");
-        favbut.className = "buttonCenter";
-        favbut.type = "button";
-        favbut.id = `${link.id}FavouriteButton`;
-        favbut.onclick = toggleAnimation;
-
-
-
-
-        // Rörig mess av vissualisera vad som ska vara i vad....
-        div.appendChild(a);
-        linkElement.appendChild(div);
-        editButton.appendChild(editIcon);
-        buttonsContainer.appendChild(editButton);
-        deleteButton.appendChild(deleteIcon);
-        buttonsContainer.appendChild(deleteButton);
-        linkElement.appendChild(buttonsContainer);
-        // favoriteButton.appendChild(favoriteIcon);
-        // linkContainer.appendChild(favoriteButton);
-        favbut.appendChild(favoriteIcon);
-        favSlideContainer.appendChild(favbut);
-        linkContainer.appendChild(favSlideContainer);
-        linkContainer.appendChild(linkElement);
-        ul.appendChild(linkContainer);
-    });
-
-
-}
-
-// Hitta närmaste <li>-element
-function getClosestLiId(element) {
-    const closestLi = element.closest("li");
-
-    if (closestLi) {
-        // console.log(closestLi.id);
-        return closestLi.id;
-    }
-}
-
-
-function linkDelete(event) {
-    const closestLiId = getClosestLiId(event.target);
-    if (closestLiId) {
-        // Ta bort länken från arrayen
-        const index = linksArray.findIndex(link => link.id === closestLiId);
-        if (index !== -1) {
-            linksArray.splice(index, 1);
-            updateLinksList();
-            saveLinksToLocalStorage();
-        }
-    }
-}
-
-function getClosestAContent(element) {
-    const closestA = element.closest("a");
-
-    if (closestA) {
-        // console.log(closestLi.id);
-        return closestA.textContent;
-    }
-}
-
-
-function editLink(event) {
-    // Hittar först närsmta li där allt ligger i
-    // sen vidare till rätt anchor och ändra textContent med promt
-    const closestLi = event.target.closest("li");
-
-    if (closestLi) {
-        const anchor = closestLi.querySelector("div > a");
-
-        if (anchor) {
-            const newText = prompt("Ange ny text för länken:", anchor.textContent);
-
-            if (newText) {
-                anchor.textContent = newText;
-                console.log(`Texten för länken har uppdaterats till: ${newText}`);
+            switch (linkCategory) {
+                case "music":
+                    linksArray[linkCategory].push(linkObject);
+                    document.getElementById("inputLinkName").value = "";
+                    document.getElementById("inputLinkUrl").value = "";
+                    idCounter++;
+                    localStorage.setItem("idCounter", idCounter);
+                    updateLinksList();
+                    saveLinksToLocalStorage();
+                    break;
+                case "movies":
+                    linksArray[linkCategory].push(linkObject);
+                    document.getElementById("inputLinkName").value = "";
+                    document.getElementById("inputLinkUrl").value = "";
+                    idCounter++;
+                    localStorage.setItem("idCounter", idCounter);
+                    updateLinksList();
+                    saveLinksToLocalStorage();
+                    break;
+                case "news":
+                    linksArray[linkCategory].push(linkObject);
+                    document.getElementById("inputLinkName").value = "";
+                    document.getElementById("inputLinkUrl").value = "";
+                    idCounter++;
+                    localStorage.setItem("idCounter", idCounter);
+                    updateLinksList();
+                    saveLinksToLocalStorage();
+                    break;
+                case "socialMedia":
+                    linksArray[linkCategory].push(linkObject);
+                    document.getElementById("inputLinkName").value = "";
+                    document.getElementById("inputLinkUrl").value = "";
+                    idCounter++;
+                    localStorage.setItem("idCounter", idCounter);
+                    updateLinksList();
+                    saveLinksToLocalStorage();
+                    break;
             }
         }
-    }
-}
-
-
-function favoriteLink(event) {
-    const icon = event.target;
-    icon.classList.toggle("material-symbols-outlined-fill");
-
-}
-
-
-
-
-
-
-// Förhindra incesering av kod i input fälten
-
-function saveLinksToLocalStorage() {
-    localStorage.setItem("linksArray", JSON.stringify(linksArray)); // Spara länkar i localStorage
-}
-
-function sanitizeInput(input) {
-    var element = document.createElement("div");
-    element.innerText = input;
-    return element.innerHTML;
-}
-
-// Ladda listan vid sidstart
-document.addEventListener("DOMContentLoaded", () => {
-    if (linksArray.length > 0) {
-        updateLinksList(); // Uppdatera listan om data finns i localStorage
+    } else {
+        switch (linkCategory) {
+            case "music":
+                linksArray[linkCategory].push(linkObject);
+                document.getElementById("inputLinkName").value = "";
+                document.getElementById("inputLinkUrl").value = "";
+                idCounter++;
+                localStorage.setItem("idCounter", idCounter);
+                updateLinksList();
+                saveLinksToLocalStorage();
+                break;
+            case "movies":
+                linksArray[linkCategory].push(linkObject);
+                document.getElementById("inputLinkName").value = "";
+                document.getElementById("inputLinkUrl").value = "";
+                idCounter++;
+                localStorage.setItem("idCounter", idCounter);
+                updateLinksList();
+                saveLinksToLocalStorage();
+                break;
+            case "news":
+                linksArray[linkCategory].push(linkObject);
+                document.getElementById("inputLinkName").value = "";
+                document.getElementById("inputLinkUrl").value = "";
+                idCounter++;
+                localStorage.setItem("idCounter", idCounter);
+                updateLinksList();
+                saveLinksToLocalStorage();
+                break;
+            case "socialMedia":
+                linksArray[linkCategory].push(linkObject);
+                document.getElementById("inputLinkName").value = "";
+                document.getElementById("inputLinkUrl").value = "";
+                idCounter++;
+                localStorage.setItem("idCounter", idCounter);
+                updateLinksList();
+                saveLinksToLocalStorage();
+                break;
+        }
     }
 });
 
 
 
-//-------------------------- Drag & Drop
+function updateLinksList() {
+    const content0 = document.querySelector("#content0 .sortable-list"); 
+    const content90 = document.querySelector("#content90 .sortable-list"); 
+    const content180 = document.querySelector("#content180 .sortable-list");
+    const content270 = document.querySelector("#content270 .sortable-list"); 
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    const sortableList = document.querySelector(".sortable-list");
+    // Rensa alla innehåll först
+    content0.innerHTML = "";
+    content90.innerHTML = "";
+    content180.innerHTML = "";
+    content270.innerHTML = "";
 
-    if (sortableList) {
+    for (let category in linksArray) {
+        linksArray[category].forEach(link => {
+            // Kontrollerar om länken redan finns i listan
+            if (!document.getElementById(link.id)) {
+                const linkContainer = document.createElement("div");
+                linkContainer.className = "linkContainer item";
+                linkContainer.setAttribute("draggable", "true");
+
+                const linkElement = document.createElement("li");
+                linkElement.className = "item";
+                linkElement.id = link.id;
+
+                const div = document.createElement("div");
+                div.className = "details";
+
+                const a = document.createElement("a");
+                a.href = link.url;
+                a.textContent = link.name;
+                a.target = "_blank";
+
+                const buttonsContainer = document.createElement("div");
+                buttonsContainer.className = "liButtonsContainer";
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "linkButtons";
+                deleteButton.type = "button";
+                deleteButton.addEventListener('click', linkDelete);
+
+                const deleteIcon = document.createElement("span");
+                deleteIcon.className = "material-symbols-outlined";
+                deleteIcon.textContent = "delete";
+
+                const editButton = document.createElement("button");
+                editButton.className = "linkButtons";
+                editButton.type = "button";
+                editButton.addEventListener('click', editLink);
+
+                const editIcon = document.createElement("span");
+                editIcon.className = "material-symbols-outlined";
+                editIcon.textContent = "edit";
+
+
+
+
+                const favoriteIcon = document.createElement("span");
+                favoriteIcon.className = "material-symbols-outlined spanExclude";
+                favoriteIcon.textContent = "favorite";
+
+                const favSlideContainer = document.createElement("div");
+                favSlideContainer.id = `${link.id}FavouriteButtonContainer`;
+                favSlideContainer.className = "FavouriteButtonContainer";
+
+                const favbut = document.createElement("button");
+                favbut.className = "buttonCenter";
+                favbut.type = "button";
+                favbut.id = `${link.id}FavouriteButton`;
+                favbut.onclick = toggleAnimation;
+
+                favbut.appendChild(favoriteIcon);
+                favSlideContainer.appendChild(favbut);
+                linkContainer.appendChild(favSlideContainer);
+
+
+                deleteButton.appendChild(deleteIcon);
+                editButton.appendChild(editIcon);
+                buttonsContainer.appendChild(editButton);
+                buttonsContainer.appendChild(deleteButton);
+
+                div.appendChild(a);
+                linkElement.appendChild(div);
+                linkElement.appendChild(buttonsContainer);
+                linkContainer.appendChild(linkElement);
+
+                // Lägg till länken i rätt kategori
+                switch (link.category) {
+                    case "news":
+                        content0.appendChild(linkContainer);
+                        break;
+                    case "socialMedia":
+                        content90.appendChild(linkContainer);
+                        break;
+                    case "music":
+                        content180.appendChild(linkContainer);
+                        break;
+                    case "movies":
+                        content270.appendChild(linkContainer);
+                        break;
+                }
+            }
+        });
+    }
+
+
+
+
+    // -------- DRAG & DROP FUNKTION
+
+    const sortableLists = document.querySelectorAll(".sortable-list");
+    sortableLists.forEach(sortableList => {
         sortableList.addEventListener("dragstart", (e) => {
             if (e.target.classList.contains("item")) {
                 isDragging = true;
@@ -284,33 +261,93 @@ document.addEventListener("DOMContentLoaded", () => {
 
         sortableList.addEventListener("dragover", initSortableList);
         sortableList.addEventListener("dragenter", (e) => e.preventDefault());
-    }
-});
-
-
-
-// Sibling
-
-const initSortableList = (e) => {
-    e.preventDefault();
-
-    const draggingItem = document.querySelector(".dragging");
-    let siblings = [...sortableList.querySelectorAll(".item:not(.dragging)")];
-
-    // Hitta nästa syskon baserat på musposition
-    let nextSibling = siblings.find(sibling => {
-        const rect = sibling.getBoundingClientRect();
-        return e.clientY <= rect.top + rect.height / 2;
     });
+}
 
-    // Om nästa syskon inte finns, sätt nextSibling till null
-    if (!nextSibling) {
-        sortableList.appendChild(draggingItem); // Lägg till i slutet om inget syskon hittas
-    } else {
-        sortableList.insertBefore(draggingItem, nextSibling);
+
+
+// Hitta närmaste <li>-element
+function getClosestLiId(element) {
+    const closestLi = element.closest("li");
+
+    if (closestLi) {
+        return closestLi.id;
     }
-};
+}
 
+// Hitta rätt a element
+
+function getClosestAContent(element) {
+    const closestA = element.closest("a");
+
+    if (closestA) {
+        // console.log(closestLi.id);
+        return closestA.textContent;
+    }
+}
+
+// Radera länk
+function linkDelete(event) {
+    const closestLiId = getClosestLiId(event.target);
+    if (closestLiId) {
+        // Hitta rätt kategori och ta bort länken från arrayen
+        for (let category in linksArray) {
+            const index = linksArray[category].findIndex(link => link.id === closestLiId);
+            if (index !== -1) {
+                linksArray[category].splice(index, 1);
+                updateLinksList();
+                saveLinksToLocalStorage();
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+// Byta namn på länk
+
+function editLink(event) {
+    // Hittar först närsmta li där allt ligger i
+    // sen vidare till rätt anchor och ändra textContent med promt
+    const closestLi = event.target.closest("li");
+
+    if (closestLi) {
+        const anchor = closestLi.querySelector("div > a");
+
+        if (anchor) {
+            const newText = prompt("Ange ny text för länken:", anchor.textContent);
+
+            if (newText) {
+                anchor.textContent = newText;
+            }
+        }
+    }
+}
+
+// Favourite fill toggle
+
+function favoriteLink(event) {
+    const icon = event.target;
+    icon.classList.toggle("material-symbols-outlined-fill");
+
+    const closestLiId = getClosestLiId(icon);
+    if (closestLiId) {
+        for (let category in linksArray) {
+            const link = linksArray[category].find(link => link.id === closestLiId);
+            if (link) {
+                link.isFavorite = icon.classList.contains("material-symbols-outlined-fill");
+                saveLinksToLocalStorage();
+                break;
+            }
+        }
+    }
+}
 
 // ---------- Favourite toggle animation
 
@@ -337,7 +374,26 @@ function toggleAnimation(event) {
     }
 
 }
-// Dial knob
+
+
+
+// Förhindra incesering av kod i input fälten
+
+function saveLinksToLocalStorage() {
+    localStorage.setItem("linksArray", JSON.stringify(linksArray)); // Spara länkar i localStorage
+    localStorage.setItem("idCounter", idCounter.toString());
+}
+
+function sanitizeInput(input) {
+    var element = document.createElement("div");
+    element.innerText = input;
+    return element.innerHTML;
+}
+
+
+
+
+// --------------- DIAL KNOB
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -370,19 +426,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function applyRotation(angle) {
-        console.log(`Applying rotation: ${angle}`);
+        // console.log(`Applying rotation: ${angle}`);
         knob.style.transform = `rotate(${angle}deg)`;
         const closestSnapAngle = findClosestSnapAngle(angle);
         showContent(closestSnapAngle);
     }
 
     function showContent(angle) {
-        console.log(`Showing content for angle: ${angle}`);
+        const snapAngles = [0, 90, 180, 270];
         snapAngles.forEach(snapAngle => {
             const contentDiv = document.getElementById(`content${snapAngle}`);
             if (contentDiv) {
                 if (snapAngle === angle) {
                     contentDiv.classList.remove('hidden');
+                    updateLinksList(); // Uppdaterar länkarna 
                 } else {
                     contentDiv.classList.add('hidden');
                 }
@@ -419,10 +476,10 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.classList.remove('no-select');
 
         // Hitta närmaste vinkel positionen
-        const normalizedRotation = ((currentRotation % 360) + 360) % 360; // Normalisera till 0-359
+        const normalizedRotation = ((currentRotation % 360) + 360) % 360; 
         const closestSnapAngle = findClosestSnapAngle(normalizedRotation);
 
-        // gå till närmsta vinkel positionen
+        // gå till närmsta positionen
         const delta = calculateShortestRotation(normalizedRotation, closestSnapAngle);
         currentRotation = closestSnapAngle; // Uppdatera currentRotation till närmaste snapAngle
         applyRotation(currentRotation);
@@ -433,7 +490,17 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function () {
             const angle = parseInt(button.getAttribute('data-angle'));
             applyRotation(angle);
-            currentRotation = angle; // Uppdatera currentRotation
+            currentRotation = angle; 
+            // updateLinksList();
         });
     });
 });
+
+
+window.onload = function () {
+    const elementsToHide = document.querySelectorAll('.content');
+    elementsToHide.forEach(element => {
+        element.classList.add('hidden');
+
+    });
+};

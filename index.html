@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,edit,favorite,send" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,edit,favorite,send" />
     <!-- <script src="https://kit.fontawesome.com/c1d24fb125.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="styles/styles.css">
     <title>Länksamling</title>
@@ -21,12 +22,41 @@
         <label for="inputLinkUrl"></label>
         <input type="text" id="inputLinkUrl" placeholder="Url...">
 
+        <label for="inputLinkCategory"></label>
+        <select name="category" id="inputLinkCategory">
+            <option value="music">Music</option>
+            <option value="movies">Filmer</option>
+            <option value="news">Nyheter</option>
+            <option value="socialMedia">Sociala medier</option>
+        </select>
+        
+
+
         <button type="submit" class="submitButton"><span class="material-symbols-outlined saveIcon">
-            send
+                send
             </span></button>
         <div class="divider"></div>
-
-   
+        <div class="contentWrapper">
+        <div class="dialWrapper" id="dialWrapper">
+            <button id="dialButton1" class="dialButton" id="newsList" data-angle="180" type="button">Musik</button>
+            <button id="dialButton2" class="dialButton" id="socialMediaList" data-angle="270" 270 type="button">Filmer</button>
+            <button id="dialButton3" class="dialButton" id="musicList" data-angle="0" type="button">Nyheter</button>
+            <button id="dialButton4" class="dialButton" id="moviesList" data-angle="90" type="button">Sociala Medier</button>
+            <div class="dialKnob" id="dialKnob"></div>
+        </div>
+        <div id="content0" class="content news">Nyheter 0°
+            <ul class="sortable-list"></ul>
+        </div>
+        <div id="content90" class="content socialMedia">Sociala medier 90°
+            <ul class="sortable-list"></ul>
+        </div>
+        <div id="content180" class="content music">Musik 180°
+            <ul class="sortable-list"></ul>
+        </div>
+        <div id="content270" class="content movies">Filmer 270°
+            <ul class="sortable-list"></ul>
+        </div>
+    </div>
     </form>
 </body>
 <script src="scripts/script.js"></script>

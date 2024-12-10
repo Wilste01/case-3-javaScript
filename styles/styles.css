@@ -1,3 +1,4 @@
+/* ------------------------------------------------------------------------ */
 :root {
     --mainBackground: #ECF0F3;
     --text-color: rgba(53, 51, 51, 0.2);
@@ -5,7 +6,7 @@
         -9px -9px 30px #FFFFFF;
     --neuShadowsOriginalInset: inset 9px 9px 18px #D1D9E6,
         inset -9px -9px 30px #FFFFFF;
-    --neonColor:   rgba(240, 0, 255, 0.25) ;
+    --neonColor: rgba(240, 0, 255, 0.25);
 }
 
 
@@ -39,6 +40,22 @@ body {
     align-items: center;
 }
 
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* ------------------------------------------------------------------------ */
+
+
+
 #linkForm {
     margin: 5rem auto;
     background-color: var(--mainBackground);
@@ -54,7 +71,7 @@ body {
 
 input,
 input:focus,
-.submitButton {
+.submitButton, select {
     background-color: var(--mainBackground);
     border: none;
     outline: none;
@@ -63,14 +80,22 @@ input:focus,
     padding: 1rem;
     overflow: visible;
 }
+
 ::placeholder {
     color: var(--text-color);
 }
+
 input {
     background: var(--mainBackground);
     box-shadow: var(--neuShadowsOriginalInset);
-    
+
 }
+select {
+    background: var(--mainBackground);
+    box-shadow: var(--neuShadowsOriginalInset);
+
+}
+
 .submitButton {
     box-shadow: var(--neuShadowsOriginalOutset);
     width: 5vw;
@@ -80,12 +105,19 @@ input {
     justify-content: center;
     align-items: center;
 }
+
 .submitButton:active {
     box-shadow: var(--neuShadowsOriginalInset);
 }
+
 .submitButton:active .saveIcon {
     color: var(--neonColor);
 }
+.contentWrapper {
+    display: flex;
+}
+
+/* ------------------------------------------------------------------------ */
 
 .divider {
     border-radius: 50px;
@@ -115,13 +147,13 @@ button {
 
 
 
-
+/* ------------------------------------------------------------------------ */
 
 .sortable-list {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 425px;
+    /* width: 425px; */
     padding: 25px;
     padding: 30px 25px 20px;
 }
@@ -151,13 +183,19 @@ button {
 
 }
 
+
+
+/* Drag & drop */
+/* ------------------------------------------------------------------------ */
+
+
 .item.dragging {
     opacity: 0;
     outline: none;
     border: none;
     box-shadow: none;
-    /* box-shadow: 0 0 15px 15px var(--mainBackground); */
 }
+
 .item.dragging:focus {
     outline: none;
     border: none;
@@ -169,15 +207,18 @@ button {
     outline: none;
     border: none;
     box-shadow: none;
-    /* transform: scale(1.2); */
 }
+
 .item.dragging :where(.details, i):focus {
     opacity: 0;
     outline: none;
     box-shadow: none;
     border: none;
-    /* transform: scale(1.2); */
 }
+/* ------------------------------------------------------------------------ */
+
+
+
 
 
 .linkContainer {
@@ -194,7 +235,7 @@ button {
 }
 
 .material-symbols-outlined {
-    color: var(--text-color);  
+    color: var(--text-color);
     opacity: 0.3;
     transition: ease-in-out 0.3s;
 }
@@ -214,9 +255,15 @@ button {
         'opsz' 24;
     opacity: 1;
 }
-.saveIcon{
+
+.saveIcon {
     font-size: 2rem;
 }
+
+/* ------------------------------------------------------------------------ */
+
+
+
 
 
 
@@ -231,7 +278,7 @@ button {
     border: none;
     outline: none;
     border-radius: 50px;
-    width: 117px;
+    width: 100px;
     height: 1rem;
     box-shadow: inset 18px 18px 30px #D1D9E6, inset -9px -9px 30px #FFFFFF;
     /* overflow: hidden; */
@@ -244,13 +291,14 @@ button {
     background-color: #ECF0F3;
     margin: 0;
     padding: 0;
-    height: 3rem;
-    width: 3rem;
+    height: 2rem;
+    width: 2rem;
     border-radius: 50px;
     border: none;
     outline: none;
     box-shadow: 18px 18px 30px #D1D9E6,
-     -9px -9px 30px #FFFFFF;;
+        -9px -9px 30px #FFFFFF;
+    ;
     margin-left: 0px;
 
 }
@@ -259,12 +307,13 @@ button {
     0% {
         margin-left: 0px;
         box-shadow: 1px 1px 10px rgba(240, 0, 255, 0),
-        -1px -1px 10px rgba(240, 0, 255, 0);
+            -1px -1px 10px rgba(240, 0, 255, 0);
     }
+
     100% {
         margin-left: 69px;
         box-shadow: 1px 1px 10px rgba(240, 0, 255, 0.25),
-        -1px -1px 10px rgba(240, 0, 255, 0.25);
+            -1px -1px 10px rgba(240, 0, 255, 0.25);
     }
 }
 
@@ -272,39 +321,18 @@ button {
     0% {
         margin-left: 70px;
     }
+
     100% {
         margin-right: 0px;
     }
 }
-/* @keyframes slideForwardLight {
-    0% {
-        box-shadow: inset 18px 18px 30px #D1D9E6,
-        inset -9px -9px 30px #FFFFFF;;
-    }
-    100% {
-
-        box-shadow: inset 30px 30px 50px rgba(240, 0, 255, 0.25),
-        inset -9px -9px 30px rgba(240, 0, 255, 0.25);
-    }
-}
-
-@keyframes slideBackLight {
-    0% {
-        box-shadow: inset 30px 30px 50px rgba(240, 0, 255, 0.25),
-        inset -9px -9px 30px rgba(240, 0, 255, 0.25);
-
-    }
-    100% {
-        box-shadow: inset 18px 18px 30px #D1D9E6,
-        inset -9px -9px 30px #FFFFFF;
-    }
-} */
 
 
 .buttonCenter.animate-forward {
     animation: slideForward 1s forwards;
 }
-.buttonCenter.animate-forward .spanExclude{
+
+.buttonCenter.animate-forward .spanExclude {
     color: var(--neonColor);
 }
 
@@ -315,7 +343,102 @@ button {
 .FavouriteButtonContainer.animate-forward {
     animation: slideForwardLight 1s forwards;
 }
+
 .FavouriteButtonContainer.animate-backward {
     animation: slideBackLight 1s forwards;
 }
 
+
+/* ------------------------------------------------------------------------ */
+
+
+
+
+
+
+
+
+
+.contentWrapper {
+    display: flex;
+    gap: 4rem;
+}
+
+
+
+/* Dial */
+/* ------------------------------------------------------------------------ */
+
+.dialWrapper {
+    margin: 10rem;
+    position: absolute;
+    left: 5rem;
+    /* position: relative; */
+    width: 200px;
+    min-width: 100px;
+    height: 200px;
+    box-shadow: var(--neuShadowsOriginalOutset);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10rem;
+}
+
+.dialKnob {
+    position: absolute;
+    width: 10%;
+    height: 10%;
+    border-radius: 50%;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-out;
+    box-shadow: var(--neonColor);
+}
+
+.dialKnob::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: solid var(--text-color);
+    /* background-color: var(--text-color);  */
+    border-radius: 50%;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dialButton {
+    border: none;
+    background-color: transparent;
+}
+
+#dialButton1 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -300%);
+}
+
+#dialButton2 {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(-20%, -50%);
+}
+
+#dialButton3 {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 200%);
+}
+
+#dialButton4 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-80%, -50%);
+}
+
+/* ------------------------------------------------------------------------ */
