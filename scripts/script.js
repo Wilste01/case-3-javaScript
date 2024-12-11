@@ -1,4 +1,4 @@
-
+/*jshint esversion:6*/
 const defaultLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {
     music: [],
     movies: [],
@@ -380,13 +380,6 @@ function toggleAnimation(event) {
         buttonCenter.classList.add('animate-forward');
     }
 
-    if (buttonContainer.classList.contains('animate-forward')) {
-        buttonContainer.classList.remove('animate-forward');
-        buttonContainer.classList.add('animate-backward');
-    } else {
-        buttonContainer.classList.remove('animate-backward');
-        buttonContainer.classList.add('animate-forward');
-    }
 
 }
 
