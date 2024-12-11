@@ -44,7 +44,7 @@ body {
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none; 
+    -ms-user-select: none;
 }
 
 .hidden {
@@ -71,6 +71,7 @@ h1 {
     height: 30px;
     opacity: 0.2;
 }
+
 #hamsterfy:hover {
     opacity: 1;
 }
@@ -94,7 +95,8 @@ h1 {
 
 input,
 input:focus,
-.submitButton, select {
+.submitButton,
+select {
     background-color: var(--mainBackground);
     border: none;
     outline: none;
@@ -113,6 +115,7 @@ input {
     box-shadow: var(--neuShadowsOriginalInset);
 
 }
+
 select {
     background: var(--mainBackground);
     box-shadow: var(--neuShadowsOriginalInset);
@@ -136,6 +139,7 @@ select {
 .submitButton:active .saveIcon {
     color: var(--neonColor);
 }
+
 .contentWrapper {
     display: flex;
 }
@@ -150,17 +154,7 @@ select {
     box-shadow: var(--neuShadowsOriginalInset);
 }
 
-li {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-    width: 20vw;
-    border-radius: 50px;
-    padding: 1rem;
-    background: var(--mainBackground);
-    box-shadow: var(--neuShadowsOriginalOutset);
 
-}
 
 button {
     cursor: pointer;
@@ -171,6 +165,17 @@ button {
 
 
 /* ------------------------------------------------------------------------ */
+.linkContainer {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row-reverse;
+}
+
+.liButtonsContainer {
+    display: flex;
+    flex-direction: column;
+    padding-right: 1rem;
+}
 
 .sortable-list {
     display: flex;
@@ -178,21 +183,33 @@ button {
     align-items: center;
     margin-left: 20rem;
     margin-top: 6rem;
-    /* width: 425px; */
-    /* padding: 25px;
-    padding: 30px 25px 20px; */
+}
+
+.item {
+
 }
 
 .sortable-list .item {
     list-style: none;
-    display: flex;
+    /* display: flex; */
     cursor: move;
     align-items: center;
-    /* padding: 10px 13px; */
     margin-bottom: 11px;
     justify-content: space-between;
     outline: none;
     border: none;
+}
+
+.itemText {
+    display: flex;
+    justify-content: space-between;
+    width: 20vw;
+    gap: 1rem;
+    margin-top: 1rem;
+    border-radius: 50px;
+    padding: 1rem;
+    background: var(--mainBackground);
+    box-shadow: var(--neuShadowsOriginalOutset);
 }
 
 
@@ -203,16 +220,15 @@ button {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-left: 1rem;
     box-shadow: none;
-
 }
 
 
 
-/* Drag & drop */
-/* ------------------------------------------------------------------------ */
 
+
+/* ------------------------------------------------------------------------ */
+/* Drag & drop */
 
 .item.dragging {
     opacity: 0;
@@ -240,17 +256,13 @@ button {
     box-shadow: none;
     border: none;
 }
+
+
+
+
 /* ------------------------------------------------------------------------ */
+/* Icons */
 
-
-
-
-
-.linkContainer {
-    display: flex;
-    gap: 1rem;
-    flex-direction: row-reverse;
-}
 
 .linkButtons,
 .favoriteButton {
