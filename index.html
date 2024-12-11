@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <h1>Link collection</h1>
     <form id="linkForm" class="flex">
         <label for="inputLinkName"></label>
         <input type="text" id="inputLinkName" placeholder="Namn...">
@@ -29,7 +30,7 @@
             <option value="news">Nyheter</option>
             <option value="socialMedia">Sociala medier</option>
         </select>
-        
+
 
 
         <button type="submit" class="submitButton"><span class="material-symbols-outlined saveIcon">
@@ -37,26 +38,28 @@
             </span></button>
         <div class="divider"></div>
         <div class="contentWrapper">
-        <div class="dialWrapper" id="dialWrapper">
-            <button id="dialButton1" class="dialButton" id="newsList" data-angle="180" type="button">Musik</button>
-            <button id="dialButton2" class="dialButton" id="socialMediaList" data-angle="270" 270 type="button">Filmer</button>
-            <button id="dialButton3" class="dialButton" id="musicList" data-angle="0" type="button">Nyheter</button>
-            <button id="dialButton4" class="dialButton" id="moviesList" data-angle="90" type="button">Sociala Medier</button>
-            <div class="dialKnob" id="dialKnob"></div>
+            <div class="dialWrapper" id="dialWrapper">
+                <button id="dialButton1" class="dialButton" id="newsList" data-angle="180" type="button">Musik</button>
+                <button id="dialButton2" class="dialButton" id="socialMediaList" data-angle="270" 270
+                    type="button">Filmer</button>
+                <button id="dialButton3" class="dialButton" id="musicList" data-angle="0" type="button">Nyheter</button>
+                <button id="dialButton4" class="dialButton" id="moviesList" data-angle="90" type="button">Sociala
+                    Medier</button>
+                <div class="dialKnob" id="dialKnob"></div>
+            </div>
+            <div id="content0" class="content news">
+                <ul class="sortable-list"></ul>
+            </div>
+            <div id="content90" class="content socialMedia">
+                <ul class="sortable-list"></ul>
+            </div>
+            <div id="content180" class="content music">
+                <ul class="sortable-list"></ul>
+            </div>
+            <div id="content270" class="content movies">
+                <ul class="sortable-list"></ul>
+            </div>
         </div>
-        <div id="content0" class="content news">Nyheter 0°
-            <ul class="sortable-list"></ul>
-        </div>
-        <div id="content90" class="content socialMedia">Sociala medier 90°
-            <ul class="sortable-list"></ul>
-        </div>
-        <div id="content180" class="content music">Musik 180°
-            <ul class="sortable-list"></ul>
-        </div>
-        <div id="content270" class="content movies">Filmer 270°
-            <ul class="sortable-list"></ul>
-        </div>
-    </div>
     </form>
 </body>
 <script src="scripts/script.js"></script>
