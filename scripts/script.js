@@ -142,10 +142,11 @@ function updateLinksList() {
                 const linkContainer = document.createElement("li");
                 linkContainer.className = "linkContainer item";
                 linkContainer.setAttribute("draggable", "true");
+                linkContainer.id = link.id;
 
                 const linkElement = document.createElement("div");
                 linkElement.className = "itemText";
-                linkElement.id = link.id;
+                // linkElement.id = link.id;
 
                 const div = document.createElement("div");
                 div.className = "details";
@@ -271,6 +272,7 @@ function getClosestLiId(element) {
     const closestLi = element.closest("li");
 
     if (closestLi) {
+        
         return closestLi.id;
     }
 }
@@ -325,6 +327,19 @@ function editLink(event) {
 
             if (newText) {
                 anchor.textContent = newText;
+
+                // Uppdatera länken i linksArray direkt
+                const closestLiId = closestLi.id;
+                for (let category in linksArray) {
+                    const link = linksArray[category].find(link => link.id === closestLiId);
+                    if (link) {
+                        link.name = newText;
+                        break;
+                    }
+                }
+
+                // Spara uppdaterad lista till localStorage
+                localStorage.setItem("linksArray", JSON.stringify(linksArray));
             }
         }
     }
