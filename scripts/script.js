@@ -504,3 +504,19 @@ window.onload = function () {
 
     });
 };
+
+
+
+// OBS! Ej för uppgift, endast för fun till redovisningen!
+const hamsterButton = document.getElementById('hamsterfy');
+const stylesheet = document.querySelector('link[rel="stylesheet"][href*="styles/styles.css"]');
+
+function LucyDontHateMe() {
+
+    const cssFile = stylesheet.getAttribute('href');
+    const newCss = cssFile === 'styles/styles.css' ? 'styles/hamsterStyle.css' : 'styles/styles.css';
+    stylesheet.setAttribute('href', newCss);
+
+}
+
+hamsterButton.addEventListener('click', LucyDontHateMe);
