@@ -139,12 +139,12 @@ function updateLinksList() {
         linksArray[category].forEach(link => {
             // Kontrollerar om länken redan finns i listan
             if (!document.getElementById(link.id)) {
-                const linkContainer = document.createElement("div");
+                const linkContainer = document.createElement("li");
                 linkContainer.className = "linkContainer item";
                 linkContainer.setAttribute("draggable", "true");
 
-                const linkElement = document.createElement("li");
-                linkElement.className = "item";
+                const linkElement = document.createElement("div");
+                linkElement.className = "itemText";
                 linkElement.id = link.id;
 
                 const div = document.createElement("div");
@@ -227,7 +227,7 @@ function updateLinksList() {
         });
     }
 
-
+}
 
 
     // -------- DRAG & DROP FUNKTION
@@ -262,7 +262,7 @@ function updateLinksList() {
         sortableList.addEventListener("dragover", initSortableList);
         sortableList.addEventListener("dragenter", (e) => e.preventDefault());
     });
-}
+
 
 
 
