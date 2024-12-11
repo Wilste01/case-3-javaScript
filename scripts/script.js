@@ -1,13 +1,13 @@
 /*jshint esversion:6*/
-const defaultLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {
+
+let defaultLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {
     music: [],
     movies: [],
     news: [],
     socialMedia: [],
 };
-const storedLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {};
-const linksArray = Object.assign(defaultLinksArray, storedLinksArray);
-
+let storedLinksArray = JSON.parse(localStorage.getItem("linksArray")) || {};
+let linksArray = Object.assign(defaultLinksArray, storedLinksArray);
 
 
 let idCounter = parseInt(localStorage.getItem("idCounter")) || 1;
@@ -136,7 +136,7 @@ function updateLinksList() {
     content270.innerHTML = "";
 
     for (let category in linksArray) {
-        linksArray[category].forEach(link => {
+         linksArray[category].forEach(link => {
             // Kontrollerar om länken redan finns i listan
             if (!document.getElementById(link.id)) {
                 const linkContainer = document.createElement("li");
@@ -228,6 +228,11 @@ function updateLinksList() {
         });
     }
 
+
+
+
+
+    
 }
 
 
