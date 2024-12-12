@@ -20,13 +20,10 @@
 }
 
 body {
-    /* FLEX */
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
 
     /* SIZE */
     width: 100%;
+    min-height: 150dvh;
     height: auto;
 
     /* BACKGROUND */
@@ -36,7 +33,6 @@ body {
 .flex {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
 }
 
@@ -66,7 +62,6 @@ h1 {
     background-repeat: no-repeat;
     background-position: center;
     border: none;
-    /* height: auto; */
     width: 30px;
     height: 30px;
     opacity: 0.2;
@@ -113,6 +108,8 @@ select {
 input {
     background: var(--mainBackground);
     box-shadow: var(--neuShadowsOriginalInset);
+    width: 50vw;
+
 
 }
 
@@ -124,8 +121,8 @@ select {
 
 .submitButton {
     box-shadow: var(--neuShadowsOriginalOutset);
-    width: 5vw;
-    height: 5vw;
+    width: 5dvw;
+    height: 5dvw;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -149,7 +146,7 @@ select {
 .divider {
     border-radius: 50px;
     margin-top: 3rem;
-    width: 90vw;
+    width: 90dvw;
     height: 5px;
     box-shadow: var(--neuShadowsOriginalInset);
 }
@@ -158,7 +155,7 @@ select {
 
 button {
     cursor: pointer;
-    width: 20vw;
+    width: 20dvw;
     background-color: var(--mainBackground);
 }
 
@@ -181,7 +178,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 20rem;
+    margin-left: 25rem;
     margin-top: 6rem;
 }
 
@@ -189,7 +186,6 @@ button {
 
 .sortable-list .item {
     list-style: none;
-    /* display: flex; */
     cursor: move;
     align-items: center;
     margin-bottom: 11px;
@@ -201,7 +197,7 @@ button {
 .itemText {
     display: flex;
     justify-content: space-between;
-    width: 20vw;
+    width: 20dvw;
     gap: 1rem;
     margin-top: 1rem;
     border-radius: 50px;
@@ -219,6 +215,7 @@ button {
     justify-content: center;
     text-align: center;
     box-shadow: none;
+    padding-left: 1rem;
 }
 
 
@@ -316,7 +313,6 @@ button {
     width: 100px;
     height: 1rem;
     box-shadow: inset 18px 18px 30px #D1D9E6, inset -9px -9px 30px #FFFFFF;
-    /* overflow: hidden; */
     position: relative;
 }
 
@@ -333,7 +329,6 @@ button {
     outline: none;
     box-shadow: 18px 18px 30px #D1D9E6,
         -9px -9px 30px #FFFFFF;
-    ;
     margin-left: 0px;
 
 }
@@ -406,7 +401,6 @@ button {
     margin: 10rem;
     position: absolute;
     left: 5rem;
-    /* position: relative; */
     width: 200px;
     min-width: 100px;
     height: 200px;
@@ -416,6 +410,7 @@ button {
     align-items: center;
     justify-content: center;
     margin-left: 10rem;
+    margin-bottom: 25rem;
 }
 
 .dialKnob {
@@ -433,7 +428,6 @@ button {
     width: 10px;
     height: 10px;
     border: solid var(--text-color);
-    /* background-color: var(--text-color);  */
     border-radius: 50%;
     top: 80px;
     left: 50%;
@@ -471,7 +465,7 @@ button {
     position: absolute;
     top: 50%;
     left: 0;
-    transform: translate(-80%, -50%);
+    transform: translate(-90%, -50%);
 }
 
 /* ------------------------------------------------------------------------ */
