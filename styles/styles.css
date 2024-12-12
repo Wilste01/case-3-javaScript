@@ -23,7 +23,7 @@ body {
 
     /* SIZE */
     width: 100%;
-    min-height: 150dvh;
+    min-height: 101dvh;
     height: auto;
 
     /* BACKGROUND */
@@ -311,7 +311,7 @@ button {
     outline: none;
     border-radius: 50px;
     width: 100px;
-    height: 1rem;
+    height: 2rem;
     box-shadow: inset 18px 18px 30px #D1D9E6, inset -9px -9px 30px #FFFFFF;
     position: relative;
 }
@@ -370,13 +370,13 @@ button {
     animation: slideBack 1s forwards;
 }
 
-.FavouriteButtonContainer.animate-forward {
+/* .FavouriteButtonContainer.animate-forward {
     animation: slideForwardLight 1s forwards;
 }
 
 .FavouriteButtonContainer.animate-backward {
     animation: slideBackLight 1s forwards;
-}
+} */
 
 
 /* ------------------------------------------------------------------------ */

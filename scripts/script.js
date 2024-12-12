@@ -119,7 +119,7 @@ document.getElementById("linkForm").addEventListener("submit", function (event) 
     }
 });
 
-
+//--------------------------------------------------------------------------
 
 function updateLinksList() {
     const content0 = document.querySelector("#content0 .sortable-list"); 
@@ -234,7 +234,7 @@ function updateLinksList() {
 
     
 }
-
+//--------------------------------------------------------------------------
 
     // -------- DRAG & DROP FUNKTION
 
@@ -270,7 +270,7 @@ function updateLinksList() {
     });
 
 
-
+//--------------------------------------------------------------------------
 
 // Hitta närmaste <li>-element
 function getClosestLiId(element) {
@@ -388,7 +388,7 @@ function toggleAnimation(event) {
 
 }
 
-
+//--------------------------------------------------------------------------
 
 // Förhindra incesering av kod i input fälten
 
@@ -396,7 +396,16 @@ function saveLinksToLocalStorage() {
     localStorage.setItem("linksArray", JSON.stringify(linksArray)); // Spara länkar i localStorage
     localStorage.setItem("idCounter", idCounter.toString());
 }
+//--------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+//--------------------------------------------------------------------------
 function sanitizeInput(input) {
     var element = document.createElement("div");
     element.innerText = input;
@@ -405,7 +414,7 @@ function sanitizeInput(input) {
 
 
 
-
+//--------------------------------------------------------------------------
 // --------------- DIAL KNOB
 
 
@@ -518,7 +527,7 @@ window.onload = function () {
     });
 };
 
-
+//--------------------------------------------------------------------------
 
 // OBS! Ej för uppgift, endast för fun till redovisningen!
 const hamsterButton = document.getElementById('hamsterfy');
